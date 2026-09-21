@@ -8,5 +8,5 @@ import { Footer } from '@/components/footer'
 
 const inter = Inter({ subsets: ['latin', 'cyrillic'], variable: '--font-inter' })
 const cormorant = Cormorant_Garamond({ subsets: ['latin', 'cyrillic'], variable: '--font-cormorant', weight: ['400', '500', '600'] })
-export const metadata: Metadata = { title: 'Diva Heels | Дамски обувки с висок ток', description: 'Елегантни дамски обувки с висок ток от Diva Heels. Безплатна доставка до България, Европа и Великобритания.' }
+export const metadata: Metadata = { title: 'Diva Heels | Дамски обувки с висок ток', description: 'Елегантни дамски обувки с висок ток от Diva Heels. Безплатна доставка до България и поддържаните държави от ЕС.' }
 export default function RootLayout({ children }: { children: React.ReactNode }) { return <html lang="bg"><body className={`${inter.variable} ${cormorant.variable}`}><LanguageProvider><StoreProvider><Header />{children}<Footer /></StoreProvider></LanguageProvider></body></html> }
