@@ -6,7 +6,7 @@ import { createRevolutOrder } from '@/lib/revolut'
 import { rateLimit, requestAddress } from '@/lib/rate-limit'
 
 type CheckoutItem = { product?: { slug?: unknown }; size?: unknown; quantity?: unknown }
-type DbProduct = { id: string; slug: string; title: string; sizes?: unknown; price_eur_minor?: number | null; price_gbp_minor?: number | null }
+type DbProduct = { id: string; slug: string; title: string; sizes?: unknown; stock?: number | null; price_eur_minor?: number | null; price_gbp_minor?: number | null }
 const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'city', 'postalCode', 'address'] as const
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const phonePattern = /^[+0-9()\s-]{7,24}$/
@@ -42,6 +42,12 @@ export async function POST(request: Request) {
     const products = await readActiveProductsBySlugs([...new Set(requested.map((item) => item.slug))]) as DbProduct[]
     const bySlug = new Map(products.map((product) => [product.slug, product]))
     if (requested.some((item) => !bySlug.has(item.slug))) return NextResponse.json({ error: 'Един от продуктите вече не е наличен.' }, { status: 409 })
+    const requestedBySlug = new Map<string, number>()
+    for (const item of requested) requestedBySlug.set(item.slug, (requestedBySlug.get(item.slug) ?? 0) + item.quantity)
+    for (const [slug, quantity] of requestedBySlug) {
+      const product = bySlug.get(slug)
+      if (!product || quantity > (product.stock ?? 0)) return NextResponse.json({ error: 'Избраният продукт няма достатъчна наличност.' }, { status: 409 })
+    }
 
     const orderItems: Record<string, unknown>[] = []
     for (const item of requested) {
