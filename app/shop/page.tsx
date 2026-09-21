@@ -1,2 +1,10 @@
-import { activeProducts } from '@/lib/products'; import { ProductCard } from '@/components/product-card'
-export default function Shop(){return <main className="mx-auto max-w-7xl px-5 py-16 lg:px-10 lg:py-24"><div className="mb-14 flex flex-col justify-between gap-8 border-b border-[#e8e5e1] pb-10 md:flex-row md:items-end"><div className="max-w-xl"><p className="mb-4 text-[10px] uppercase tracking-[.25em] text-[#b79a66]">Diva Heels</p><h1 className="font-editorial text-6xl">Колекцията</h1><p className="mt-5 text-sm leading-7 text-[#666]">Силуети с характер, създадени да допълнят всеки специален момент.</p></div><p className="text-[10px] uppercase tracking-[.18em] text-[#666]">{activeProducts.length} модела</p></div><div className="mb-8 flex items-center justify-between"><p className="text-xs text-[#666]">Всички обувки</p><p className="text-[10px] uppercase tracking-[.16em] text-[#b79a66]">Безплатна доставка</p></div><div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-7">{activeProducts.map(p=><ProductCard key={p.id} product={p}/>)}</div></main>}
+import { readActiveProducts } from '@/lib/supabase-server'
+import { mapSupabaseProduct } from '@/lib/products'
+import { ProductCard } from '@/components/product-card'
+
+export const dynamic = 'force-dynamic'
+
+export default async function Shop() {
+  const products = (await readActiveProducts()).map(mapSupabaseProduct)
+  return <main className="mx-auto max-w-7xl px-5 py-16 lg:px-10 lg:py-24"><div className="mb-14 flex flex-col justify-between gap-8 border-b border-[#e8e5e1] pb-10 md:flex-row md:items-end"><div className="max-w-xl"><p className="mb-4 text-[10px] uppercase tracking-[.25em] text-[#b79a66]">Diva Heels</p><h1 className="font-editorial text-6xl">Колекцията</h1><p className="mt-5 text-sm leading-7 text-[#666]">Силуети с характер, създадени да допълнят всеки специален момент.</p></div><p className="text-[10px] uppercase tracking-[.18em] text-[#666]">{products.length} модела</p></div><div className="mb-8 flex items-center justify-between"><p className="text-xs text-[#666]">Всички обувки</p><p className="text-[10px] uppercase tracking-[.16em] text-[#b79a66]">Безплатна доставка</p></div><div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-7">{products.map((product) => <ProductCard key={product.id} product={product} />)}</div></main>
+}

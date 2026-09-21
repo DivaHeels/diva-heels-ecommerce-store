@@ -31,3 +31,33 @@ To learn more, take a look at the following resources:
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 - [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+
+## Production readiness remediation
+
+The current production-readiness work is documented in [`PRODUCTION_READINESS_REPORT.md`](./PRODUCTION_READINESS_REPORT.md). It does not commit secrets, register Revolut webhooks, change DNS, deploy to production, or execute payments.
+
+### Database migrations
+
+Apply migrations only through the linked Supabase project and review the SQL before applying:
+
+```bash
+supabase link --project-ref asjrbzvrblknxekmyhum
+supabase db push
+```
+
+The additive contract migration is `supabase/migrations/20260921170000_production_payment_contract.sql`. It adds `orders.revolut_checkout_url` and `orders.payment_failure_reason` with `IF NOT EXISTS`; it does not delete rows or seed products.
+
+### Local validation
+
+```bash
+pnpm install --frozen-lockfile
+pnpm exec tsc --noEmit
+NODE_ENV=production pnpm run build
+git diff --check
+```
+
+Do not run payment smoke tests without explicitly configured authorized credentials and a confirmed production procedure. The current Supabase catalog has no products, so no demo data is included by design.
+
+### Recovery
+
+Before applying migrations to a non-empty environment, create a Supabase backup or point-in-time recovery checkpoint. If an application compatibility issue is detected, restore from that checkpoint rather than running an ad-hoc destructive rollback. Never commit service-role keys or Revolut secrets.

@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
+import { rateLimit, requestAddress } from '@/lib/rate-limit'
 
 export async function POST(request: Request) {
+  const limit = rateLimit(`contact:${requestAddress(request)}`, 5, 60_000)
+  if (!limit.allowed) return NextResponse.json({ error: 'Твърде много опити. Моля, изчакайте.' }, { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } })
   try {
     const body = await request.json()
     const name = typeof body?.name === 'string' ? body.name.trim() : ''
