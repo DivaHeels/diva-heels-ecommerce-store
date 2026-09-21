@@ -1,28 +1,5 @@
 'use client'
-
 import { FormEvent, useState } from 'react'
 import { ContentPage } from '@/components/content-page'
-
-export default function Contact() {
-  const [message, setMessage] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    setLoading(true)
-    setMessage('')
-    const form = new FormData(event.currentTarget)
-    try {
-      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(form.entries())) })
-      const result = await response.json()
-      setMessage(result.message || result.error || 'Възникна грешка.')
-      if (response.ok) event.currentTarget.reset()
-    } catch {
-      setMessage('Възникна грешка. Моля, опитайте отново.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return <ContentPage title="Контакти"><div className="grid gap-10 md:grid-cols-2"><div><h2 className="font-editorial text-3xl text-[#111]">Diva Heels</h2><p className="mt-5">Търговец: ЕМ АН ГЕ ЕООД<br />ЕИК: 208556392<br />diva.heels@abv.bg<br />+359 893 271 282</p><p className="mt-5">България, гр. София 1000,<br />р-н Студентски, ул. „Проф. Ст. Димитров“ № 6,<br />вх. А, ет. 1</p></div><form className="space-y-4" onSubmit={submit}><label className="block text-xs">Име<input name="name" required className="mt-2 w-full border border-[#e8e5e1] px-4 py-3" /></label><label className="block text-xs">Имейл<input name="email" type="email" required className="mt-2 w-full border border-[#e8e5e1] px-4 py-3" /></label><label className="block text-xs">Телефон (по желание)<input name="phone" className="mt-2 w-full border border-[#e8e5e1] px-4 py-3" /></label><label className="block text-xs">Съобщение<textarea name="message" required minLength={10} rows={5} className="mt-2 w-full border border-[#e8e5e1] px-4 py-3" /></label>{message && <p role="status" className="text-sm text-[#9a5f39]">{message}</p>}<button disabled={loading} className="bg-[#111] px-7 py-4 text-xs uppercase tracking-widest text-white disabled:opacity-50">{loading ? 'Изпращане...' : 'Изпрати'}</button></form></div></ContentPage>
-}
+import { useLanguage } from '@/components/language-provider'
+export default function Contact() { const [message,setMessage]=useState(''); const [loading,setLoading]=useState(false); const {language,t}=useLanguage(); async function submit(event:FormEvent<HTMLFormElement>){event.preventDefault();setLoading(true);setMessage('');const form=new FormData(event.currentTarget);try{const response=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(form.entries()))});const result=await response.json();setMessage(result.message||result.error||(language==='en'?'An error occurred.':'Възникна грешка.'));if(response.ok)event.currentTarget.reset()}catch{setMessage(language==='en'?'An error occurred. Please try again.':'Възникна грешка. Моля, опитайте отново.')}finally{setLoading(false)}} return <ContentPage title={t('contact')}><div className="grid gap-10 md:grid-cols-2"><div><h2 className="font-editorial text-3xl text-[#111]">Diva Heels</h2><p className="mt-5">ЕМ АН ГЕ ЕООД<br/>ЕИК: 208556392<br/>diva.heels@abv.bg<br/>+359 893 271 282</p><p className="mt-5">България, гр. София 1000,<br/>р-н Студентски, ул. „Проф. Ст. Димитров“ № 6</p></div><form className="space-y-4" onSubmit={submit}><label className="block text-xs">{language==='en'?'Name':'Име'}<input name="name" required className="mt-2 w-full border border-[#e8e5e1] px-4 py-3"/></label><label className="block text-xs">{language==='en'?'Email':'Имейл'}<input name="email" type="email" required className="mt-2 w-full border border-[#e8e5e1] px-4 py-3"/></label><label className="block text-xs">{language==='en'?'Phone (optional)':'Телефон (по желание)'}<input name="phone" className="mt-2 w-full border border-[#e8e5e1] px-4 py-3"/></label><label className="block text-xs">{language==='en'?'Message':'Съобщение'}<textarea name="message" required minLength={10} rows={5} className="mt-2 w-full border border-[#e8e5e1] px-4 py-3"/></label>{message&&<p role="status" className="text-sm text-[#9a5f39]">{message}</p>}<button disabled={loading} className="bg-[#111] px-7 py-4 text-xs uppercase tracking-widest text-white disabled:opacity-50">{loading?t('sending'):t('send')}</button></form></div></ContentPage>}

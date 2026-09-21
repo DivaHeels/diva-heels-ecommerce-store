@@ -87,3 +87,26 @@ Those two source-store records were intentionally left inactive after the user c
 - `WEBHOOK`: not registered
 - `MERGE`: not performed
 - `COMMIT_PENDING`: catalog changes are ready for commit and push
+
+## TERMINATOR staging completion
+
+The Hosted Checkout redirect URL now resolves in this order: `PUBLIC_SITE_URL`, `NEXT_PUBLIC_SITE_URL`, then `https://${VERCEL_URL}` on Vercel. Arbitrary client host/origin headers are not trusted. `REVOLUT_MERCHANT_PUBLIC_KEY` is not required for the Hosted Checkout path.
+
+A lightweight centralized BG/EN language provider was added with market defaults (BG for BG, EN for EU/UK), manual switching, and `localStorage` persistence. Header, announcement, footer, cart drawer, contact form, and shipping policy now use the language layer or provide bilingual factual copy. Shipping policy now covers Bulgaria, supported EU countries, and the UK limitation accurately: free delivery, up to two business days, and a 14-day return request window; no tax/customs promises are made.
+
+The verified Preview URL before this commit was `https://diva-git-codex-production-re-3dd8e5-didothewhite-8941s-projects.vercel.app`. It rendered the three active Supabase products correctly in Bulgarian. The new language/URL changes require the next Vercel Preview deployment after push.
+
+Vercel environment inspection was performed without decrypting values. No Preview-targeted `REVOLUT_MERCHANT_SECRET_KEY`, `REVOLUT_WEBHOOK_SIGNING_SECRET`, or `REVOLUT_ENV=sandbox` was present. Per instruction, no payment testing, webhook registration, secret creation, or secret modification was attempted. To continue sandbox E2E, a user with secure account access must add to the Vercel **Preview** target only: a Revolut Merchant **Sandbox** secret key, `REVOLUT_ENV=sandbox`, and the Sandbox webhook signing secret after registering the Preview webhook URL. Production credentials must not be copied to Preview.
+
+Current validation remains:
+
+- TypeScript: PASS
+- Production build: PASS
+- `git diff --check`: PASS
+- Supabase active products: PASS (3; Atelier, Noir, Signature)
+- Stock validation: PASS
+- Preview browser baseline: PASS before this commit
+- Sandbox Hosted Checkout E2E: PENDING — Preview sandbox credentials unavailable
+- Sandbox webhook registration: PENDING — secure Revolut Merchant account access/credentials required
+- Real-money payment: NOT PERFORMED
+- Main merge: NOT PERFORMED

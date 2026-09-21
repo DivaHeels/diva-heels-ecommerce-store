@@ -20,8 +20,8 @@ function getSecret() {
 }
 
 function getProductionSiteUrl() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.PUBLIC_SITE_URL
-  if (!siteUrl) throw new Error('Production site URL is not configured.')
+  const siteUrl = process.env.PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
+  if (!siteUrl || !/^https:\/\//.test(siteUrl)) throw new Error('Public site URL is not configured.')
   return siteUrl.replace(/\/$/, '')
 }
 
@@ -54,5 +54,5 @@ export async function retrieveRevolutOrder(revolutOrderId: string) {
 }
 
 export function getRevolutConfig() {
-  return { configured: Boolean(process.env.REVOLUT_MERCHANT_SECRET_KEY && process.env.REVOLUT_MERCHANT_PUBLIC_KEY), production, publicKey: process.env.REVOLUT_MERCHANT_PUBLIC_KEY ?? null }
+  return { configured: Boolean(process.env.REVOLUT_MERCHANT_SECRET_KEY), production, publicKey: process.env.REVOLUT_MERCHANT_PUBLIC_KEY ?? null }
 }
