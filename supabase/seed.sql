@@ -5,14 +5,6 @@ UPDATE public.products
 SET active = false, updated_at = now()
 WHERE slug IN ('divaheels-обувки-с-висок-ток', 'нови-дамски-обувки-с-висок-ток-14-см');
 
-UPDATE public.products
-SET images = '["/products/divaheels-elegant-red/1.jpg"]'::jsonb, updated_at = now()
-WHERE slug = 'divaheels-обувки-с-висок-ток';
-
-UPDATE public.products
-SET images = '["/products/divaheels-elegant-yellow/1.png"]'::jsonb, updated_at = now()
-WHERE slug = 'нови-дамски-обувки-с-висок-ток-14-см';
-
 INSERT INTO public.products (
   slug,
   title,
