@@ -2,7 +2,7 @@
 
 **Repository:** `DivaHeels/diva-heels-ecommerce-store`  
 **Branch audited:** `v0/revolut-checkout-audit`  
-**Audited commit:** `30fa5d7` plus the final privacy fix in the working tree  
+**Audited commit:** `23accfd`  
 **Vercel project:** `diva`  
 **Preview checked:** `https://diva-2yg2i4j8f-didothewhite-8941s-projects.vercel.app`
 
