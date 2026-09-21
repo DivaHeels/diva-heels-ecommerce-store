@@ -110,3 +110,5 @@ Current validation remains:
 - Sandbox webhook registration: PENDING — secure Revolut Merchant account access/credentials required
 - Real-money payment: NOT PERFORMED
 - Main merge: NOT PERFORMED
+
+The homepage hero and CTA copy is now wired to the language provider and switches between Bulgarian and English without redesigning the storefront. The latest commit is `978a5553ccd9868d7260f64ba98cc0def8b78634`. Vercel has created a new Preview deployment for this commit; at the final check it was still `BUILDING`, so its post-build browser state is pending. The prior Ready deployment successfully showed the three active products and the BG/EN selectors.
