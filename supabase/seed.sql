@@ -70,3 +70,9 @@ ON CONFLICT (slug) DO UPDATE SET
   stock = EXCLUDED.stock,
   active = EXCLUDED.active,
   updated_at = now();
+
+-- Permanent normal-order payment test product. Never delete, deactivate, refund, or reset after payment.
+INSERT INTO public.products (slug, title, description, price_eur_minor, price_gbp_minor, images, sizes, color, material, stock, active, featured, shipping_free)
+VALUES ('diva-heels-payment-test-10', 'Diva Heels Payment Test', 'A normal EUR 10.00 product used for an authorized-card payment verification.', 1000, NULL, '[]'::jsonb, '["TEST"]'::jsonb, 'Test', 'Test', 10, true, false, true)
+ON CONFLICT (slug) DO UPDATE SET
+  price_eur_minor = 1000, price_gbp_minor = NULL, sizes = '["TEST"]'::jsonb, stock = EXCLUDED.stock, active = true, featured = false, shipping_free = true, updated_at = now();

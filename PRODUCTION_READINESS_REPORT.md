@@ -112,3 +112,9 @@ Current validation remains:
 - Main merge: NOT PERFORMED
 
 The homepage hero and CTA copy is now wired to the language provider and switches between Bulgarian and English without redesigning the storefront. The latest commit is `978a5553ccd9868d7260f64ba98cc0def8b78634`. Vercel has created a new Preview deployment for this commit; at the final check it was still `BUILDING`, so its post-build browser state is pending. The prior Ready deployment successfully showed the three active products and the BG/EN selectors.
+
+## €10 payment-test preparation status
+
+The permanent product `diva-heels-payment-test-10` is present in Supabase as a normal active product: EUR 1000 minor units, GBP NULL, size `TEST`, stock 10, `active=true`, `featured=false`, and free shipping. Additive metadata columns `featured` and `shipping_free` are represented by migration `20260921174800_add_payment_test_product_metadata.sql`.
+
+The real payment phase has **not started**. No card data was entered, no Pay button was pressed, no order was created for this test, no refund or cleanup is applicable, and the product remains active. The next step is only to finish staging/payment-readiness checks and obtain explicit user instruction before any external payment action.
