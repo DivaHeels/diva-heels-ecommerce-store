@@ -64,7 +64,7 @@ export async function insertPaymentEvent(event: { revolut_event_id: string; orde
 
 export async function readActiveProducts(): Promise<SupabaseProduct[]> {
   const { supabaseUrl } = getConfig()
-  const response = await fetch(`${supabaseUrl}/rest/v1/products?active=eq.true&order=created_at.desc`, { headers: headers(), cache: 'no-store' })
+  const response = await fetch(`${supabaseUrl}/rest/v1/products?active=eq.true&slug=neq.diva-heels-payment-test-10&order=created_at.desc`, { headers: headers(), cache: 'no-store' })
   if (!response.ok) throw new Error('Unable to read products.')
   return response.json()
 }
