@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+:root { --background:#fff; --foreground:#111; --muted:#666; --paper:#f7f4f0; --line:#e8e5e1; --gold:#b79a66; }
+@theme inline { --color-background:var(--background); --color-foreground:var(--foreground); --color-border:var(--line); --color-muted-foreground:var(--muted); --font-sans:var(--font-inter); --font-serif:var(--font-cormorant); }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--background); color:var(--foreground); font-family:var(--font-inter), Arial, sans-serif; }
+.font-editorial { font-family:var(--font-cormorant), Georgia, serif; }
+::selection { background:#d9c8aa; color:#111; }
+button, a, input, textarea, select { outline-offset:4px; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline:2px solid var(--gold); }
+@keyframes reveal { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+.reveal { animation:reveal .7s ease both; }
+

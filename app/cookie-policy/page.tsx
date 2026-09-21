@@ -1,0 +1,1 @@
+import { ContentPage } from '@/components/content-page'; export default function Cookie(){return <ContentPage title="Политика за бисквитки"><p>Използваме технически необходими бисквитки за работата на сайта и запазване на количката в текущото устройство. Не използваме рекламни бисквитки без ваше съгласие.</p></ContentPage>}

@@ -1,0 +1,1 @@
+import { ContentPage } from '@/components/content-page'; export default function Legal(){return <ContentPage title="Правна информация"><p>Доставчик на услугите: ЕМ АН ГЕ ЕООД, ЕИК 208556392, България, гр. София 1000, р-н Студентски, ул. „Проф. Ст. Димитров“ № 6, вх. А, ет. 1.</p><p>Контакти: diva.heels@abv.bg · +359 893 271 282</p></ContentPage>}
