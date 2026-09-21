@@ -16,7 +16,9 @@ INSERT INTO public.products (
   color,
   material,
   stock,
-  active
+  active,
+  featured,
+  shipping_free
 )
 VALUES
 (
@@ -25,11 +27,13 @@ VALUES
   'Diva Heels Atelier е изчистен черен модел от естествена кожа, създаден за елегантна визия и уверен силует. Балансираната форма го прави подходящ за специални поводи и за моменти, в които детайлът има значение. Безплатна доставка до България в срок до 2 работни дни след потвърждение на поръчката. Връщане в срок от 14 дни след получаване.',
   9800,
   NULL,
-  '["/diva-heels-product.png", "/diva-heels-hero.png"]'::jsonb,
+  '[]'::jsonb,
   '["36", "37", "38", "39", "40", "41"]'::jsonb,
   'черен',
   'естествена кожа',
   10,
+  true,
+  true,
   true
 ),
 (
@@ -38,11 +42,13 @@ VALUES
   'Diva Heels Noir е черен модел от естествена кожа с минималистично присъствие и силен вечерен характер. Създаден е за изчистени комбинации, официални поводи и стил, който остава запомнящ се. Безплатна доставка до България в срок до 2 работни дни след потвърждение на поръчката. Връщане в срок от 14 дни след получаване.',
   9800,
   NULL,
-  '["/diva-heels-product.png", "/diva-heels-hero.png"]'::jsonb,
+  '[]'::jsonb,
   '["36", "37", "38", "39", "40", "41"]'::jsonb,
   'черен',
   'естествена кожа',
   10,
+  true,
+  true,
   true
 ),
 (
@@ -51,11 +57,13 @@ VALUES
   'Diva Heels Signature е характерният черен модел на Diva Heels, изработен от естествена кожа. Елегантният силует е създаден да допълни специалните моменти с увереност и ненатрапчив лукс. Безплатна доставка до България в срок до 2 работни дни след потвърждение на поръчката. Връщане в срок от 14 дни след получаване.',
   9800,
   NULL,
-  '["/diva-heels-product.png", "/diva-heels-hero.png"]'::jsonb,
+  '[]'::jsonb,
   '["36", "37", "38", "39", "40", "41"]'::jsonb,
   'черен',
   'естествена кожа',
   10,
+  true,
+  true,
   true
 )
 ON CONFLICT (slug) DO UPDATE SET
@@ -69,6 +77,8 @@ ON CONFLICT (slug) DO UPDATE SET
   material = EXCLUDED.material,
   stock = EXCLUDED.stock,
   active = EXCLUDED.active,
+  featured = EXCLUDED.featured,
+  shipping_free = EXCLUDED.shipping_free,
   updated_at = now();
 
 -- Permanent normal-order payment test product. Never delete, deactivate, refund, or reset after payment.
